@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Nexus Mobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #000000; /* Pure Black Background */
+            --secondary-bg: #111111; /* Slightly lighter black for elements */
+            --accent-color: #FFD700; /* Gold Yellow for accents */
+            --gradient-start: #FFEA00; /* Bright Yellow start for gradients */
+            --gradient-end: #FFA500;   /* Orange Yellow end for gradients */
+            --text-color: #E0E0E0; /* Light grey text for readability */
+            --heading-font: 'Orbitron', sans-serif;
+            --body-font: 'Roboto', sans-serif;
+        }
+
+        body {
+            font-family: var(--body-font);
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg); /* Full black background */
+            color: var(--text-color); /* Light grey text */
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            min-height: 100vh; /* Ensure full viewport height */
+            display: flex;
+            flex-direction: column; /* For footer to stick to bottom if content is short */
+        }
+
+        /* Hide the header completely as per "no title" request for the page display. */
+        header {
+            display: none;
+        }
+
+        /* Adjustments for a full-screen mobile-first feel */
+        .container {
+            max-width: 100%; /* Take full width on mobile */
+            margin: 0 auto; /* Center content */
+            padding: 0 10px; /* Reduced padding for more screen space */
+            flex-grow: 1; /* Allows container to grow and push footer down */
+        }
+
+        /* --- Hero Section (adjusted for prominence without header) --- */
+        .hero-section {
+            background: url('https://via.placeholder.com/1600x600/1e2a4a/ffffff?text=Epic+Tournament+Moments') no-repeat center center/cover;
+            height: 60vh; /* Make hero section take more screen height on mobile */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px; /* Reduced margin */
+            border-bottom: 4px solid var(--accent-color); /* Yellow accent line */
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* More opaque black overlay */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px; /* Reduced padding */
+        }
+
+        .hero-overlay h2 {
+            font-family: var(--heading-font);
+            font-size: 2em; /* Smaller for mobile readability */
+            color: white; /* Still white for contrast against overlay */
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 8px rgba(255, 255, 0, 0.6); /* Subtle yellow glow */
+            line-height: 1.2; /* Better line spacing for shorter titles */
+        }
+
+        .hero-overlay p {
+            font-size: 0.9em; /* Smaller for mobile readability */
+            color: #f5f5f5; /* Slightly lighter text */
+            max-width: 95%; /* Use almost full width */
+            margin: 0 auto;
+            padding: 0 5px;
+        }
+
+        /* --- Section Title --- */
+        .section-title {
+            font-family: var(--heading-font);
+            font-size: 1.8em; /* Adjusted for mobile */
+            text-align: center;
+            margin: 20px 0; /* Adjusted margin */
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px; /* Slightly increased for impact */
+            text-shadow: 0 0 5px rgba(255, 255, 0, 0.4); /* Subtle yellow glow */
+        }
+
+        /* --- Story Grid --- */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Stack cards vertically for mobile */
+            gap: 15px; /* Reduced gap */
+        }
+
+        .story-card {
+            background-color: var(--secondary-bg); /* Darker grey/black */
+            border-radius: 5px; /* Smaller border-radius */
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5); /* Stronger shadow on dark background */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #333; /* Subtle border for definition */
+        }
+
+        .story-card:hover {
+            transform: translateY(-3px); /* Less dramatic hover effect */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6); /* More prominent shadow on hover */
+        }
+
+        .story-card img {
+            width: 100%;
+            height: 160px; /* Reduced height for mobile */
+            object-fit: cover;
+            border-bottom: 2px solid var(--accent-color); /* Yellow accent line */
+        }
+
+        .story-content {
+            padding: 15px; /* Adjusted padding */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .story-content h3 {
+            font-family: var(--heading-font);
+            font-size: 1.3em; /* Adjusted for mobile */
+            margin-top: 0;
+            margin-bottom: 8px; /* Adjusted margin */
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 4px rgba(255, 255, 0, 0.5); /* Subtle yellow glow */
+            line-height: 1.3;
+        }
+
+        .story-content p {
+            font-size: 0.8em; /* Adjusted for mobile */
+            color: #b0b0b0; /* Slightly darker grey text */
+            flex-grow: 1;
+        }
+
+        .story-content .read-more {
+            display: block; /* Make it a block button */
+            margin-top: 12px;
+            padding: 8px 10px;
+            background-color: var(--accent-color); /* Yellow background */
+            color: black; /* Black text on yellow button */
+            text-decoration: none;
+            border-radius: 3px;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: center;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .story-content .read-more:hover {
+            background-color: #E6B800; /* Darker yellow on hover */
+            transform: translateY(-2px);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--secondary-bg); /* Darker background */
+            text-align: center;
+            padding: 15px 0; /* Reduced padding */
+            margin-top: 30px; /* Reduced margin */
+            border-top: 3px solid var(--accent-color); /* Yellow accent line */
+            font-size: 0.75em; /* Smaller text */
+            color: #888; /* Darker grey text */
+        }
+
+        footer a {
+            color: var(--accent-color); /* Yellow links in footer */
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Ad Section Styles - Ensure they fit the new aesthetic */
+        .ad-container, .native-banner-container {
+            background-color: var(--primary-bg); /* Match pure black background */
+            padding: 10px 0; /* Reduced padding around ads */
+            margin: 15px auto; /* Changed: Added 'auto' for horizontal centering */
+            border-top: 1px solid #222; /* Subtle border */
+            border-bottom: 1px solid #222;
+            min-height: 50px;
+            /* Added: Set a max-width to constrain the containers on larger screens */
+            max-width: 320px; /* Default max-width for mobile banner size */
+            text-align: center; /* Added: Ensures content inside is centered */
+        }
+        /* Ensure ad placeholders are visually distinct but fit the theme */
+        .ad-unit div, #container-07cc768a12882244e250aa2b299086ad {
+            background-color: #333; /* Dark grey placeholder */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8em;
+            text-align: center;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(255, 255, 0, 0.2); /* Subtle yellow glow for ads */
+            /* Ensure the ad unit itself takes full available width within its container */
+            width: 100%;
+            height: 100%; /* Or specific height like 50px if that's the ad size */
+        }
+
+        /* Responsive Ad Sizes for Desktop (retained but adjust if needed for your ads) */
+        @media (min-width: 769px) {
+            .ad-container, .native-banner-container {
+                max-width: 728px; /* Leaderboard for desktop */
+                height: 90px;
+            }
+            .container {
+                max-width: 960px; /* Wider container on desktop */
+                padding: 0 15px;
+            }
+            .hero-section {
+                height: 400px; /* Taller on desktop */
+            }
+            .hero-overlay h2 {
+                font-size: 3.5em;
+            }
+            .hero-overlay p {
+                font-size: 1.2em;
+            }
+            .section-title {
+                font-size: 2.5em;
+            }
+            .story-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+            .story-card img {
+                height: 200px;
+            }
+            .story-content h3 {
+                font-size: 1.6em;
+            }
+            .story-content p {
+                font-size: 0.9em;
+            }
+            .story-content .read-more {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Adjustments for very small mobile screens if needed */
+        @media (max-width: 375px) {
+            .hero-overlay h2 {
+                font-size: 1.6em;
+            }
+            .hero-overlay p {
+                font-size: 0.75em;
+            }
+            .section-title {
+                font-size: 1.3em;
+            }
+            .story-content h3 {
+                font-size: 1.1em;
+            }
+            .story-content p {
+                font-size: 0.7em;
+            }
+        }
+    </style>
+    <script type='text/javascript' src='//pl27176821.profitableratecpm.com/10/b0/19/10b019974c8e255e1b00b4d85edb14c1.js'></script>
+</head>
+<body>
+
+    <script type='text/javascript' src='//pl27174638.profitableratecpm.com/f6/22/f9/f622f930628e38ae58bd40487fddf780.js'></script>
+
+    <header>
+        <h1>ELITE NEXUS</h1>
+        <p>Your Portal to Legendary Free Fire Tournament Stories</p>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#featured-stories">Featured Stories</a></li>
+                <li><a href="#all-stories">All Stories</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="ad-container">
+        <div class="ad-unit">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'baccc218743e279d407a1967b67e11df',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+        </div>
+    </div>
+
+    <div class="native-banner-container">
+        <script async="async" data-cfasync="false" src="//pl27179405.profitableratecpm.com/07cc768a12882244e250aa2b299086ad/invoke.js"></script>
+        <div id="container-07cc768a12882244e250aa2b299086ad"></div>
+    </div>
+
+    <div class="hero-section">
+        <div class="hero-overlay">
+            <h2>Witness the Unforgettable</h2>
+            <p>Dive deep into the most thrilling moments, tactical masterclasses, and inspiring journeys from the world of Free Fire esports.</p>
+        </div>
+    </div>
+
+    <div class="ad-container">
+        <div class="ad-unit">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'baccc218743e279d407a1967b67e11df',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title" id="featured-stories">Featured Tournament Tales</h2>
+        <div class="story-grid">
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/4a148c/ffffff?text=Clutch+Win" alt="Team celebrating a clutch win">
+                <div class="story-content">
+                    <h3>The Phoenix's Rise: Unbelievable Comeback</h3>
+                    <p>Relive the astonishing grand finals where Team Phoenix, against all odds, staged a legendary comeback from the brink of defeat to claim the championship title. Pure grit and teamwork!</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/004d40/ffffff?text=Sniper+Ace" alt="Sniper aiming in Free Fire">
+                <div class="story-content">
+                    <h3>Sniper's Symphony: Apex Predator's Dominance</h3>
+                    <p>Follow the path of 'Apex Predator,' the undisputed sniper ace whose pinpoint accuracy and strategic positioning single-handedly turned the tide in multiple crucial matches.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="native-banner-container">
+                <script async="async" data-cfasync="false" src="//pl27179405.profitableratecpm.com/07cc768a12882244e250aa2b299086ad/invoke.js"></script>
+                <div id="container-07cc768a12882244e250aa2b299086ad"></div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/880e4f/ffffff?text=Teamwork" alt="Free Fire team in action">
+                <div class="story-content">
+                    <h3>Brotherhood of Bullets: Team Synergy Unleashed</h3>
+                    <p>Discover the untold story of 'The Sentinels,' a team renowned not just for their skill, but for their unbreakable bond and telepathic coordination that made them unstoppable.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/bf360c/ffffff?text=Underdog" alt="Underdog team celebrating">
+                <div class="story-content">
+                    <h3>Underdog's Roar: From Zero to Hero</h3>
+                    <p>An inspiring chronicle of 'Rising Stars,' a rookie team that nobody expected to win, but who defied all predictions and captured the hearts of fans with their audacious plays.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="native-banner-container">
+                <script async="async" data-cfasync="false" src="//pl27179405.profitableratecpm.com/07cc768a12882244e250aa2b299086ad/invoke.js"></script>
+                <div id="container-07cc768a12882244e250aa2b299086ad"></div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ad-container">
+        <div class="ad-unit">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'baccc218743e279d407a1967b67e11df',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title" id="all-stories">All Tournament Stories</h2>
+        <div class="story-grid">
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/263238/ffffff?text=Tactical+Genius" alt="Tactical map or plan">
+                <div class="story-content">
+                    <h3>The Grand Strategist: Mind Games of the Mastermind</h3>
+                    <p>Unpack the brilliant tactical decisions and mind games played by the legendary in-game leader 'Cipher', whose strategic prowess was second to none.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/3e2723/ffffff?text=Rivalry" alt="Two teams facing off">
+                <div class="story-content">
+                    <h3>Clash of Titans: The Eternal Rivalry</h3>
+                    <p>Delve into the intense and storied rivalry between two of Free Fire's most dominant teams, whose encounters always delivered edge-of-your-seat action.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="native-banner-container">
+                <script async="async" data-cfasync="false" src="//pl27179405.profitableratecpm.com/07cc768a12882244e250aa2b299086ad/invoke.js"></script>
+                <div id="container-07cc768a12882244e250aa2b299086ad"></div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/424242/ffffff?text=New+Legends" alt="Team celebrating new legends">
+                <div class="story-content">
+                    <h3>The Rise of New Legends</h3>
+                    <p>Every tournament brings new heroes. This story highlights the emerging talents who took the scene by storm.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/616161/ffffff?text=Behind+The+Scenes" alt="Behind the scenes">
+                <div class="story-content">
+                    <h3>Behind The Scenes: The Coaching Mastermind</h3>
+                    <p>Explore the strategic brilliance of the coaches who shaped championship teams and their unique approaches.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <img src="https://via.placeholder.com/400x200/757575/ffffff?text=Fan+Favorites" alt="Fan favorite players">
+                <div class="story-content">
+                    <h3>Fan Favorites: The Players Who Stole Hearts</h3>
+                    <p>These players weren't just skilled; they captivated audiences with their personality and passion.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+            <div class="ad-container">
+                <div class="ad-unit">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'baccc218743e279d407a1967b67e11df',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/baccc218743e279d407a1967b67e11df/invoke.js"></script>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="native-banner-container">
+        <script async="async" data-cfasync="false" src="//pl27179405.profitableratecpm.com/07cc768a12882244e250aa2b299086ad/invoke.js"></script>
+        <div id="container-07cc768a12882244e250aa2b299086ad"></div>
+    </div>
+
+    <footer id="about">
+        <p>&copy; 2025 Elite Nexus. All Rights Reserved. | <a href="#privacy" style="color: #aaa; text-decoration: none;">Privacy Policy</a> | <a href="#terms" style="color: #aaa; text-decoration: none;">Terms of Service</a></p>
+        <p id="contact">Contact us: info@elitenexus.com</p>
+    </footer>
+
+</body>
+</html>
